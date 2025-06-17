@@ -1,59 +1,59 @@
-		dtype	u1	u2	u3	u4	u5	u6	u7	u8	u9	u10	u11	u12
-PATNR_EXP_ADD		int64												
-FALNR_EXP_ADD		int64												
-GBDAT_EXP_ADD		object	DD.MM.YYYY											
-DOKNR		int64												
-GSCHL_EXP_ADD		object	w	m										
-ZNLMSVAGEW		float64												
-ZNLMSVAGGRO	? ZNLMSVAGRO	int64												
-ZNLMSVABMI		float64												
-ZNLMSVANIK		object	ja	nein	nicht bekannt	NaN								
-ZNLMSVAEDA		object	DD.MM.YYYY											
-ZNLMSVEPD		object	DD.MM.YYYY	00.00.0000										
-ZNLMSVEDDE		object	DD.MM.YYYY											
-ZNLMSVEDSC		float64	2.5	NaN										
-ZNLMSVEDPY		object	0 = normal	1 = abnormal signs without disability	2 = minimal disability	3a = mild to moderate paraparesis or hemiparesis	3b = severe monoparesis: BMRC grade 2 or less	4a = marked paraparesis or hemiparesis: usually BMRC grade 2	4b = moderate tetraparesis: BMRC grade 3	4c = monoplegia: BMRC grade 0 or 1 in one limb	5a = paraplegia: BMRC grade 0 or 1	5b = hemiplegia	5c = marked tetraparesis: BMRC grade 2 or less	NaN
-ZNLMSVEDKL	"""3c="" eq sign no space"	object	0 = normal	1 = abnormal signs without disability	2 = mild ataxia	3a = moderate truncal ataxia	3b = moderate limb ataxia	3c= moderate or severe gait ataxia	4 = severe truncal ataxia and in 3 or 4 limbs	NaN				
-ZNLMSVEDHI	i = 16	object												
-ZNLMSVEDSE														
-ZNLMSVEDBM														
-ZNLMSVEDVI														
-ZNLMSVEDKO														
-ZNLMSVEDG1														
-ZNLMSVEDG2														
-ZNLMSVKLDA														
-ZNLMSVKL00														
-ZNLMSVKL03														
-ZNLMSVKL04														
-ZNLMSVKL06														
-ZNLMSVKL07														
-ZNLMSVKL08														
-ZNLMSVKL09														
-ZNLMSVKL10														
-ZNLMSVKL11														
-ZNLMSVKL12														
-ZNLMSVKL15														
-ZNLMSVKL18														
-ZNLMSVKL22														
-ZNLMSVKL25														
-ZNLMSVKL33														
-ZNLMSVKL34														
-ZNLMSVKL35														
-ZNLMSVKL36														
-ZNLMSVKL38														
-ZNLMSVKL40														
-ZNLMSVKL41														
-ZNLMSVKL43														
-ZNLMSVKL44														
-ZNLMSVKL45														
-ZNLMSVEDMH														
-ZNLMSVK281														
-ZNLMSVKL48														
-ZNLMSNEK05														
-ZNLMSNET01														
-ZNLMSNET02														
-ZNLMSNEA01														
-ZNLMSNED01														
-ZNLMSNED02														
-ZNLMSNEKEM														
-ZNLMSNEAND														
+"		dtype	u1	u2	u3	u4	u5	u6	u7	u8	u9	u10	u11	u12"
+"PATNR_EXP_ADD		int64												"
+"FALNR_EXP_ADD		int64												"
+"GBDAT_EXP_ADD		object	DD.MM.YYYY											"
+"DOKNR		int64												"
+"GSCHL_EXP_ADD		object	w	m										"
+"ZNLMSVAGEW		float64												"
+"ZNLMSVAGGRO	? ZNLMSVAGRO	int64												"
+"ZNLMSVABMI		float64												"
+"ZNLMSVANIK		object	ja	nein	nicht bekannt	NaN								"
+"ZNLMSVAEDA		object	DD.MM.YYYY											"
+"ZNLMSVEPD		object	DD.MM.YYYY	00.00.0000										"
+"ZNLMSVEDDE		object	DD.MM.YYYY											"
+"ZNLMSVEDSC		float64	2.5	NaN										"
+"ZNLMSVEDPY		object	0 = normal	1 = abnormal signs without disability	2 = minimal disability	3a = mild to moderate paraparesis or hemiparesis	3b = severe monoparesis: BMRC grade 2 or less	4a = marked paraparesis or hemiparesis: usually BMRC grade 2	4b = moderate tetraparesis: BMRC grade 3	4c = monoplegia: BMRC grade 0 or 1 in one limb	5a = paraplegia: BMRC grade 0 or 1	5b = hemiplegia	5c = marked tetraparesis: BMRC grade 2 or less	NaN"
+"ZNLMSVEDKL	""""""3c="""" eq sign no space""	object	0 = normal	1 = abnormal signs without disability	2 = mild ataxia	3a = moderate truncal ataxia	3b = moderate limb ataxia	3c= moderate or severe gait ataxia	4 = severe truncal ataxia and in 3 or 4 limbs	NaN				"
+"ZNLMSVEDHI	i = 16	object												"
+"ZNLMSVEDSE														"
+"ZNLMSVEDBM														"
+"ZNLMSVEDVI														"
+"ZNLMSVEDKO														"
+"ZNLMSVEDG1														"
+"ZNLMSVEDG2														"
+"ZNLMSVKLDA														"
+"ZNLMSVKL00														"
+"ZNLMSVKL03														"
+"ZNLMSVKL04														"
+"ZNLMSVKL06														"
+"ZNLMSVKL07														"
+"ZNLMSVKL08														"
+"ZNLMSVKL09														"
+"ZNLMSVKL10														"
+"ZNLMSVKL11														"
+"ZNLMSVKL12														"
+"ZNLMSVKL15														"
+"ZNLMSVKL18														"
+"ZNLMSVKL22														"
+"ZNLMSVKL25														"
+"ZNLMSVKL33														"
+"ZNLMSVKL34														"
+"ZNLMSVKL35														"
+"ZNLMSVKL36														"
+"ZNLMSVKL38														"
+"ZNLMSVKL40														"
+"ZNLMSVKL41														"
+"ZNLMSVKL43														"
+"ZNLMSVKL44														"
+"ZNLMSVKL45														"
+"ZNLMSVEDMH														"
+"ZNLMSVK281														"
+"ZNLMSVKL48														"
+"ZNLMSNEK05														"
+"ZNLMSNET01														"
+"ZNLMSNET02														"
+"ZNLMSNEA01														"
+"ZNLMSNED01														"
+"ZNLMSNED02														"
+"ZNLMSNEKEM														"
+"ZNLMSNEAND														"
