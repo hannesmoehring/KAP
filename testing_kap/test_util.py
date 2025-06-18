@@ -28,7 +28,6 @@ def generate_column_data(
         is_bad_2 = np.random.rand() < prob_bad
         if dtype == "date":
             if is_bad:
-                # Generate invalid date or empty
                 temp = random_date(start="01.01.1800", end="01.01.2050", fmt=fmt)
                 data.append(random.choice(["32.13.2020", np.nan, temp]))
 

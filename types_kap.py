@@ -24,6 +24,7 @@ class ResponseVCStr:
 class ResponseVCDate:
     before: int
     after: int
+    missing: int
     total: int
     bad_id_list: list[int]
 
