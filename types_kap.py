@@ -35,3 +35,11 @@ class ResponseVCDateOrder:
     missing: int
     total: int
     bad_id_list: list[int]
+
+
+@dataclass
+class ResponseCC:
+    wrong: int
+    missing: int
+    total: int
+    bad_id_list: list[int]

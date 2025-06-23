@@ -3,11 +3,13 @@ import pandas as pd
 from types_kap import *
 
 
+# input 2 date colums, the earlier one in col_1, later in col_2, for example col_1 = birthday, col_2 = appointment. it will output the index
+# where an appointment was earlier than the persons birthday
 def check_temporal_order_plausibility(
     col_1: str,
     col_2: str,
     df: pd.DataFrame,
-    inclusive: bool = False,
+    inclusive: bool = True,
     allow_na: bool = False,
 ) -> ResponseVCDate:
 
