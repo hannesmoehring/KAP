@@ -37,7 +37,7 @@ class Config():
 
         check_type = json["check_type"]
 
-        if check_type == "VCDate":
+        if check_type == "temporal_value_conformance":
             return TemporalValueConformance(
                 json["column"],
                 json["date_range"]["start"],
@@ -46,10 +46,19 @@ class Config():
                 json.get("allow_na", False)
             )
         
-        elif check_type == "VCStr":
+        elif check_type == "string_value_conformance":
             return StringValueConformance(
                 json["column"],
                 json["values"],
+                json.get("allow_na", False)
+            )
+        
+        elif check_type == "temporal_order_plausability":
+
+            return TemporalOrderPlausability(
+                json["first"],
+                json["last"],
+                json.get("inclusive", False),
                 json.get("allow_na", False)
             )
         

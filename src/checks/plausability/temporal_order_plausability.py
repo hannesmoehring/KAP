@@ -12,8 +12,8 @@ class TemporalOrderPlausability(Check):
         inclusive: bool = True,
         allow_na: bool = False,
     ):
-        self.column_1 = col_1,
-        self.column_2 = col_2,
+        self.column_1 = col_1
+        self.column_2 = col_2
         self.inclusive = inclusive
         self.allow_na = allow_na
 

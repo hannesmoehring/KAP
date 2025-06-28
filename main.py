@@ -6,7 +6,6 @@ import src.testing_kap.test_util as test_util
 def main():
 
     config = src.config.Config("./config.json")
-
     checks = config.get_checks()
 
     df = test_util.routine()
@@ -15,7 +14,6 @@ def main():
         r = check.run_check(df)
 
         print(r)
-
 
 
 if __name__ == "__main__":
