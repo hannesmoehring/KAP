@@ -1,0 +1,49 @@
+{
+    "columns" : [
+        {
+            "name": "GBDAT_EXP_ADD",
+            "dtype": "date"
+        }, 
+        {
+            "name": "GSCHL_EXP_ADD",
+            "dtype": "category"
+        },
+        {
+            "name": "ZNLMSVAEDA",
+            "dtype": "date"
+        },
+        {
+            "name": "ZNLMSVEDPY",
+            "dtype": "ordinal"
+        }
+    ],
+
+    "checks" : [
+        {
+            "column": "GBDAT_EXP_ADD",
+            "check_type" : "VCDate",
+            "date_range": {
+                "start": "01.01.1950",
+                "end": "01.01.2025"
+            }
+        },
+        {
+            "column": "GSCHL_EXP_ADD",
+            "check_type": "VCStr",
+            "values": ["w", "m"]
+        },
+        {
+            "column": "ZNLMSVEDPY",
+            "check_type": "VCStr",
+            "values": ["0", "1", "2", "3a", "3b", "4a", "4b", "4c", "5a", "5b", "5c"]
+        },
+        {
+            "column": "ZNLMSVAEDA",
+            "check_type" : "VCDate",
+            "date_range": {
+                "start": "01.01.1950",
+                "end": "01.01.2025"
+            }
+        }
+    ]
+}
