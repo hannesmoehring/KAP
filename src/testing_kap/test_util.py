@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 
+
 def random_date(start: str, end: str, fmt="%d.%m.%Y") -> str:
     start_dt = datetime.strptime(start, fmt)
     end_dt = datetime.strptime(end, fmt)
@@ -50,7 +51,7 @@ n_rows = 1000
 
 columns = {
     "GBDAT_EXP_ADD": {"dtype": "date", "prob_bad": 0.2, "date_range": ("01.01.1950", "01.01.2025")},
-    "GSCHL_EXP_ADD": {"dtype": "category", "values": ["w", "m"], "prob_bad": 0.15},
+    "GSCHL_EXP_ADD": {"dtype": "category", "values": ["w", "m", "F"], "prob_bad": 0.15},
     "ZNLMSVEDPY": {
         "dtype": "ordinal",
         "values": ["0", "1", "2", "3a", "3b", "4a", "4b", "4c", "5a", "5b", "5c"],

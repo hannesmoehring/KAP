@@ -18,6 +18,21 @@
         }
     ],
 
+    "parsers": [
+        {
+            "columns": [
+                "GSCHL_EXP_ADD"
+            ],
+            "mapping":
+            {
+                "m":"m",
+                "w":"w",
+                "f":"w"
+            },
+            "case_sensitive": false
+        }
+    ],
+
     "checks" : [
         {
             "check_type": "string_value_conformance",
