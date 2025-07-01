@@ -5,11 +5,11 @@ import json
 
 from src.checks.check import Check
 
-from src.checks.computational.check_bmi import BMICheck
+from src.checks.conformance.computational.check_bmi import BMICheck
 
-from src.checks.conformance.numeric_value_conformance import NumericValueConformanceCheck
-from src.checks.conformance.string_value_conformance import StringValueConformance
-from src.checks.conformance.temporal_value_conformance import TemporalValueConformance
+from src.checks.conformance.value.numeric import NumericValueConformanceCheck
+from src.checks.conformance.value.string import StringValueConformance
+from src.checks.conformance.value.temporal import TemporalValueConformance
 
 from src.checks.plausability.temporal_order_plausability import TemporalOrderPlausability
 
