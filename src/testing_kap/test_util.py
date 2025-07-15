@@ -76,6 +76,11 @@ def routine() -> pd.DataFrame:
         df_data[col] = generate_column_data(
             dtype=dtype, values=values, size=n_rows, prob_bad=prob_bad, date_range=date_range
         )
+    
+    df_data["ZNLMSVAGRO"] = np.random.normal(loc=170, scale=10, size=n_rows)
+    df_data["ZNLMSVAGEW"] = np.random.normal(loc=70, scale=20, size=n_rows)
+
+    df_data["ZNLMSVABMI"] = df_data["ZNLMSVAGEW"] / (df_data["ZNLMSVAGRO"] * df_data["ZNLMSVAGRO"] ) + np.random.random(n_rows)
 
     df = pd.DataFrame(df_data)
     return df
