@@ -7,11 +7,13 @@ from src.checks.check import Check
 
 from src.checks.conformance.computational.computational import ComputationalCheck
 
-from src.checks.conformance.numeric_value_conformance import NumericValueConformanceCheck
-from src.checks.conformance.string_value_conformance import StringValueConformance
-from src.checks.conformance.temporal_value_conformance import TemporalValueConformance
+from src.checks.conformance.value.numeric import NumericValueConformanceCheck
+from src.checks.conformance.value.string import StringValueConformance
+from src.checks.conformance.value.temporal import TemporalValueConformance
 
 from src.checks.plausability.temporal_order_plausability import TemporalOrderPlausability
+
+from src.parsers.parser import Parser
 
 
 class Config():
@@ -30,6 +32,13 @@ class Config():
         with open(self.config_path, "r") as config_file:
             return json.loads("".join(config_file.readlines()))
 
+
+    def _json_to_parser(self, json):
+        return Parser(
+            mapping=json["mapping"],
+            columns=json["columns"],
+            case_sensitive=json.get("case_sensitive", False)
+        )
 
     def _json_to_check(self, json):
         if "type" not in json.keys():
@@ -83,3 +92,18 @@ class Config():
                 except Exception as e:
                     raise RuntimeError(f"Error creating {check}: {e}")
         return ret
+    
+
+    def get_parsers(self) -> list[Parser]:
+
+        ret = []
+
+        if "parsers" in self.config_json:
+            for parser in self.config_json["parsers"]:
+                try:
+                    f = self._json_to_parser(parser)
+                    ret.append(f)
+                except Exception as e:
+                    raise RuntimeError(f"Error creating {parser}: {e}")
+        return ret
+    
