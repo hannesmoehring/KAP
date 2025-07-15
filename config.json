@@ -35,12 +35,12 @@
 
     "checks" : [
         {
-            "check_type": "string_value_conformance",
+            "type": "string_value_conformance",
             "column": "GSCHL_EXP_ADD",
             "values": ["w", "m"]
         },
         {
-            "check_type": "temporal_value_conformance",
+            "type": "temporal_value_conformance",
             "column": "GBDAT_EXP_ADD",
             "date_range": {
                 "start": "01.01.1920",
@@ -48,9 +48,15 @@
             }
         },
         {
-            "check_type": "temporal_order_plausability",
+            "type": "temporal_order_plausability",
             "first": "GBDAT_EXP_ADD",
             "last": "ZNLMSVAEDA"
+        },
+        {
+            "type": "computational",
+            "formula": "ZNLMSVAGEW / (ZNLMSVAGRO * ZNLMSVAGRO)",
+            "expected_result": "ZNLMSVABMI",
+            "error": 2
         }
     ]
 }

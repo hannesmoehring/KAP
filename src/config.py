@@ -5,7 +5,7 @@ import json
 
 from src.checks.check import Check
 
-from src.checks.conformance.computational.check_bmi import BMICheck
+from src.checks.conformance.computational.computational import ComputationalCheck
 
 from src.checks.conformance.value.numeric import NumericValueConformanceCheck
 from src.checks.conformance.value.string import StringValueConformance
@@ -41,10 +41,10 @@ class Config():
         )
 
     def _json_to_check(self, json):
-        if "check_type" not in json.keys():
+        if "type" not in json.keys():
             raise KeyError("check_type not defined.")
 
-        check_type = json["check_type"]
+        check_type = json["type"]
 
         if check_type == "temporal_value_conformance":
             return TemporalValueConformance(
@@ -63,12 +63,18 @@ class Config():
             )
         
         elif check_type == "temporal_order_plausability":
-
             return TemporalOrderPlausability(
                 json["first"],
                 json["last"],
                 json.get("inclusive", False),
                 json.get("allow_na", False)
+            )
+        
+        elif check_type == "computational":
+            return ComputationalCheck(
+                json["formula"],
+                json["expected_result"],
+                json.get("error", 0)
             )
         
         raise RuntimeError(f"Check for type {check_type} not configured.")
