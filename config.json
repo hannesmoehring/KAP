@@ -1,0 +1,62 @@
+{
+    "columns" : [
+        {
+            "name": "GBDAT_EXP_ADD",
+            "dtype": "date"
+        }, 
+        {
+            "name": "GSCHL_EXP_ADD",
+            "dtype": "category"
+        },
+        {
+            "name": "ZNLMSVAEDA",
+            "dtype": "date"
+        },
+        {
+            "name": "ZNLMSVEDPY",
+            "dtype": "ordinal"
+        }
+    ],
+
+    "parsers": [
+        {
+            "columns": [
+                "GSCHL_EXP_ADD"
+            ],
+            "mapping":
+            {
+                "m":"m",
+                "w":"w",
+                "f":"w"
+            },
+            "case_sensitive": false
+        }
+    ],
+
+    "checks" : [
+        {
+            "type": "string_value_conformance",
+            "column": "GSCHL_EXP_ADD",
+            "values": ["w", "m"]
+        },
+        {
+            "type": "temporal_value_conformance",
+            "column": "GBDAT_EXP_ADD",
+            "date_range": {
+                "start": "01.01.1920",
+                "end": "01.06.2025"
+            }
+        },
+        {
+            "type": "temporal_order_plausability",
+            "first": "GBDAT_EXP_ADD",
+            "last": "ZNLMSVAEDA"
+        },
+        {
+            "type": "computational",
+            "formula": "ZNLMSVAGEW / (ZNLMSVAGRO * ZNLMSVAGRO)",
+            "expected_result": "ZNLMSVABMI",
+            "error": 2
+        }
+    ]
+}
