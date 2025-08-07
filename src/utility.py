@@ -1,5 +1,4 @@
 import json
-from typing import Tuple
 
 import pandas as pd
 

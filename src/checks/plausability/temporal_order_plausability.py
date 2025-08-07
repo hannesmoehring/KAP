@@ -1,12 +1,13 @@
-from src.checks.check import Check
-from dataclasses import dataclass
-
 import pandas as pd
+
+from src.checks.check import Check
+from src.types import GenericResponse
 
 
 class TemporalOrderPlausability(Check):
 
-    def __init__(self,      
+    def __init__(
+        self,
         col_1: str,
         col_2: str,
         inclusive: bool = True,
@@ -16,7 +17,6 @@ class TemporalOrderPlausability(Check):
         self.column_2 = col_2
         self.inclusive = inclusive
         self.allow_na = allow_na
-
 
     def run_check(self, df):
         col_1 = self.column_1.strip()
@@ -40,12 +40,11 @@ class TemporalOrderPlausability(Check):
 
         bad_rows = df.index[bad_mask].tolist()
 
-        return ResponseVCDateOrder(earlier=(later < earlier).sum(), missing=missing_mask.sum(), total=len(df), bad_id_list=bad_rows)
-    
-
-@dataclass
-class ResponseVCDateOrder():
-    earlier: int
-    missing: int
-    total: int
-    bad_id_list: list[int]
+        return GenericResponse(
+            type="temporal_order",
+            col=[self.column_1, self.column_2],
+            wrong=bad_mask.sum(),
+            missing=missing_mask.sum(),
+            total=len(df),
+            bad_id_list=bad_rows,
+        )

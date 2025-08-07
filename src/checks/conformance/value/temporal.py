@@ -1,7 +1,7 @@
-from src.checks.check import Check
-from dataclasses import dataclass
-
 import pandas as pd
+
+from src.checks.check import Check
+from src.types import GenericResponse
 
 
 class TemporalValueConformance(Check):
@@ -13,14 +13,13 @@ class TemporalValueConformance(Check):
         self.inclusive = inclusive
         self.allow_na = allow_na
 
-
     def run_check(self, df):
         self.col = self.col.strip()
         if self.col not in df.columns:
             raise Exception(f"no such column: '{self.col}'")
 
         try:
-            data = pd.to_datetime(df[self.col], errors="coerce")
+            data = pd.to_datetime(df[self.col], dayfirst=True, errors="coerce")
         except Exception as e:
             raise ValueError(f"could not convert column '{self.col}' to datetime: {e}")
 
@@ -42,12 +41,11 @@ class TemporalValueConformance(Check):
 
         bad_rows = df.index[bad_mask].tolist()
 
-        return ResponseVCDate(before=before_mask.sum(), after=after_mask.sum(), missing=missing_mask.sum(), total=len(data), bad_id_list=bad_rows)
-    
-@dataclass
-class ResponseVCDate():
-    before: int
-    after: int
-    missing: int
-    total: int
-    bad_id_list: list[int]
+        return GenericResponse(
+            type="value_temporal",
+            col=[self.col],
+            wrong=bad_mask.sum(),
+            missing=missing_mask.sum(),
+            total=len(data),
+            bad_id_list=bad_rows,
+        )

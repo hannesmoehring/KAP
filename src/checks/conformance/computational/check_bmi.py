@@ -1,9 +1,11 @@
-from src.checks.check import Check
-from dataclasses import dataclass
-
-import pandas as pd
 import numpy as np
+import pandas as pd
 
+from src.checks.check import Check
+from src.types import GenericResponse
+
+
+# todo transform to computational check
 class BMICheck(Check):
 
     def __init__(self, height_column, weigh_column, bmi_column):
@@ -30,17 +32,11 @@ class BMICheck(Check):
 
         bad_ids = df.index[bad_mask].tolist()
 
-        return ResponseBMI(
+        return GenericResponse(
+            type="bmi",
+            col=[self.height_column, self.weigh_column, self.bmi_column],
             wrong=invalid_mask,
             missing=missing_mask.sum(),
             total=len(df),
             bad_id_list=bad_ids,
         )
-
-
-@dataclass
-class ResponseBMI():
-    wrong: int
-    missing: int
-    total: int
-    bad_id_list: list[int]

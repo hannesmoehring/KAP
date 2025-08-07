@@ -1,17 +1,18 @@
 from src.checks.check import Check
-from dataclasses import dataclass
+from src.types import GenericResponse
+
 
 class StringValueConformance(Check):
 
+    # todo: add case sensitivity option
     def __init__(self, col: str, allowed_strings: list[str], allow_na: bool = False):
         self.col = col
         self.allowed_strings = allowed_strings
         self.allow_na = allow_na
 
-
     def run_check(self, df):
         if self.col.strip() not in df.columns:
-            raise Exception("no such column.")
+            raise Exception("no such column: {}".format(self.col))
 
         bad_rows = list[int]
         data = df[self.col]
@@ -25,11 +26,11 @@ class StringValueConformance(Check):
 
         bad_rows = df.index[bad_mask].tolist()
 
-        return ResponseVCStr(outside=outside_mask.sum(), missing=missing_mask.sum(), total=len(data), bad_id_list=bad_rows)
-
-@dataclass
-class ResponseVCStr():
-    outside: int
-    missing: int
-    total: int
-    bad_id_list: list[int]
+        return GenericResponse(
+            type="string_conformance",
+            col=[self.col],
+            wrong=bad_mask.sum(),
+            missing=missing_mask.sum(),
+            total=len(data),
+            bad_id_list=bad_rows,
+        )
