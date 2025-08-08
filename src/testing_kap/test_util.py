@@ -1,10 +1,14 @@
+import json
+import os
 import random
+from dataclasses import asdict, is_dataclass
 from datetime import datetime, timedelta
 from typing import Literal, Union
 
 import numpy as np
 import pandas as pd
 
+from src.types import Result
 
 
 def random_date(start: str, end: str, fmt="%d.%m.%Y") -> str:
@@ -47,19 +51,19 @@ def generate_column_data(
     return data
 
 
-n_rows = 1000
+N_ROWS = 1000
 
 columns = {
-    "GBDAT_EXP_ADD": {"dtype": "date", "prob_bad": 0.2, "date_range": ("01.01.1950", "01.01.2025")},
-    "GSCHL_EXP_ADD": {"dtype": "category", "values": ["w", "m", "F"], "prob_bad": 0.15},
+    "GBDAT_EXP_ADD": {"dtype": "date", "prob_bad": 0.002, "date_range": ("01.01.1950", "01.01.2025")},
+    "GSCHL_EXP_ADD": {"dtype": "category", "values": ["w", "m", "F"], "prob_bad": 0.01},
     "ZNLMSVEDPY": {
         "dtype": "ordinal",
         "values": ["0", "1", "2", "3a", "3b", "4a", "4b", "4c", "5a", "5b", "5c"],
-        "prob_bad": 0.25,
+        "prob_bad": 0.0003,
     },
     "ZNLMSVAEDA": {
         "dtype": "date",
-        "prob_bad": 0.2,
+        "prob_bad": 0.002,
         "date_range": ("01.01.1950", "01.01.2025"),
     },
 }
@@ -70,18 +74,103 @@ def routine() -> pd.DataFrame:
 
     for col, config in columns.items():
         dtype = config["dtype"]
-        prob_bad = config.get("prob_bad", 0.1)
+        prob_bad = config.get("prob_bad", 0.0001)
         values = config.get("values", [])
         date_range = config.get("date_range", ("01.01.2000", "01.01.2025"))
 
-        df_data[col] = generate_column_data(
-            dtype=dtype, values=values, size=n_rows, prob_bad=prob_bad, date_range=date_range
-        )
-    
-    df_data["ZNLMSVAGRO"] = np.random.normal(loc=170, scale=10, size=n_rows)
-    df_data["ZNLMSVAGEW"] = np.random.normal(loc=70, scale=20, size=n_rows)
+        df_data[col] = generate_column_data(dtype=dtype, values=values, size=N_ROWS, prob_bad=prob_bad, date_range=date_range)
 
-    df_data["ZNLMSVABMI"] = df_data["ZNLMSVAGEW"] / (df_data["ZNLMSVAGRO"] * df_data["ZNLMSVAGRO"] ) + np.random.random(n_rows)
+    df_data["ZNLMSVAGRO"] = np.random.normal(loc=170, scale=10, size=N_ROWS)
+    df_data["ZNLMSVAGEW"] = np.random.normal(loc=70, scale=20, size=N_ROWS)
+
+    df_data["ZNLMSVABMI"] = df_data["ZNLMSVAGEW"] / (df_data["ZNLMSVAGRO"] * df_data["ZNLMSVAGRO"]) + np.random.random(N_ROWS)
 
     df = pd.DataFrame(df_data)
     return df
+
+
+def dataclass_to_json(obj):
+    if is_dataclass(obj):
+        return {key: dataclass_to_json(value) for key, value in asdict(obj).items()}
+    elif isinstance(obj, set):
+        return list(obj)
+    elif isinstance(obj, list):
+        return [dataclass_to_json(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: dataclass_to_json(value) for key, value in obj.items()}
+    elif isinstance(obj, (np.integer, np.floating)):
+        return obj.item()
+    else:
+        return obj
+
+
+def export_to_json(results: Result):
+    os.makedirs("results", exist_ok=True)
+    date = datetime.now().strftime("%Y-%m-%d_%H-%M")
+    data = dataclass_to_json(results)
+    with open(f"results/results_{date}.json", "w") as f:
+        json.dump(data, f, indent=4)
+    print(f"Results exported to results/results_{date}.json")
+
+
+def infer_dtype(dtype):
+    if pd.api.types.is_datetime64_any_dtype(dtype):
+        return "date"
+    elif pd.api.types.is_integer_dtype(dtype):
+        return "int64"
+    elif pd.api.types.is_float_dtype(dtype):
+        return "float64"
+    elif dtype == "category":  # if less than 20 unique values, use category. should double check
+        return "category"
+    else:
+        return "UNKNOWN"  # default to UNKNOWN for object/string
+
+
+def generate_config_from_csv(csv_path: str, output_json_path: str):
+    df = pd.read_csv(csv_path)
+
+    for col in df.select_dtypes(include="object"):
+        unique_vals = df[col].nunique(dropna=True)
+        if unique_vals <= 20:
+            df[col] = df[col].astype("category")
+
+    config = {
+        "columns": [],
+        "parsers": [{"columns": [None], "mapping": None, "case_sensitive": None}],
+        "checks": [
+            {
+                "type": None,
+                "column": None,
+                "values": None,
+                "date_range": {"start": None, "end": None},
+                "first": None,
+                "last": None,
+                "formula": None,
+                "expected_result": None,
+                "error": None,
+            }
+        ],
+    }
+
+    for col in df.columns:
+        dtype = infer_dtype(df[col].dtype)
+
+        col_entry = {"name": col, "dtype": dtype}
+
+        if dtype in ["category", "ordinal"]:
+            col_entry["values"] = None
+        elif dtype in ["int64", "float64"]:
+            col_entry["min"] = None
+            col_entry["max"] = None
+
+        config["columns"].append(col_entry)
+
+    dir_name = os.path.dirname(output_json_path)
+
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
+
+    with open(output_json_path, "w") as f:
+        json.dump(config, f, indent=4)
+
+    print(f"Template config saved to {output_json_path}")

@@ -1,8 +1,9 @@
-from src.checks.check import Check
-from dataclasses import dataclass
-
-import pandas as pd
 import numpy as np
+import pandas as pd
+
+from src.checks.check import Check
+from src.types import GenericResponse
+
 
 class ComputationalCheck(Check):
 
@@ -20,15 +21,11 @@ class ComputationalCheck(Check):
 
         bad_ids = df.index[invalid_mask].tolist()
 
-        return ResponseComputational(
-            wrong=invalid_mask,
+        return GenericResponse(
+            type="computational",
+            col=[self.formula, self.expected_result],
+            wrong=len(bad_ids),
+            missing=0,  # todo check
             total=len(df),
             bad_id_list=bad_ids,
         )
-
-
-@dataclass
-class ResponseComputational():
-    wrong: int
-    total: int
-    bad_id_list: list[int]
