@@ -3,6 +3,10 @@ import argparse
 
 import pandas as pd
 
+import argparse
+
+import pandas as pd
+
 import src.config
 import src.testing_kap.test_util as test_util
 from src.checks.check import Check
@@ -25,6 +29,10 @@ def main():
     config = src.config.Config("./config.json")
 
     parsers = config.get_parsers()
+
+    stage_1_checks = config.get_stage_1_checks()
+    stage_2_checks = config.get_stage_2_checks()
+    stage_3_checks = config.get_stage_3_checks()
 
     stage_1_checks = config.get_stage_1_checks()
     stage_2_checks = config.get_stage_2_checks()
