@@ -41,11 +41,7 @@ def generate_2D_df_overview(df: pd.DataFrame) -> pd.DataFrame:
 
         value_conform_flags = ...  # check_value_conform_range1(df[[col]])
 
-        valid_present = (
-            value_conform_flags[col].sum()
-            if isinstance(value_conform_flags, pd.DataFrame)
-            else value_conform_flags.sum()
-        )
+        valid_present = value_conform_flags[col].sum() if isinstance(value_conform_flags, pd.DataFrame) else value_conform_flags.sum()
         pct_valid = valid_present / n_present if n_present > 0 else 0.0
         pct_present = n_present / n_total
 
@@ -81,13 +77,9 @@ def generate_2D_row_overview(df: pd.DataFrame) -> pd.DataFrame:
 
         # Avoid division by zero for completely empty rows
         result[idx] = {
-            "value_conform": (
-                (value_conform_flags.loc[idx] & present_flags.loc[idx]).sum() / n_total if n_total else 0.0
-            ),
+            "value_conform": ((value_conform_flags.loc[idx] & present_flags.loc[idx]).sum() / n_total if n_total else 0.0),
             "unique": (unique_flags.loc[idx] & present_flags.loc[idx]).sum() / n_total if n_total else 0.0,
-            "temporal_plausibility": (
-                (temporal_flags.loc[idx] & present_flags.loc[idx]).sum() / n_total if n_total else 0.0
-            ),
+            "temporal_plausibility": ((temporal_flags.loc[idx] & present_flags.loc[idx]).sum() / n_total if n_total else 0.0),
             "presence": n_total / df.shape[1],
         }
 
